@@ -1,15 +1,20 @@
 
 """
 Playwright helpers + JSON schemas that allow the OpenAI agent to drive a
-*single*, visible Chromium tab.  Viewport adapts to the window size so the
-content rescales when the user resizes.
+*single* Chromium tab. The browser is launched in headless mode by default so
+the code can run on servers without a display. Set ``HEADLESS=0`` to launch a
+visible window. Viewport adapts to the window size so the content rescales when
+the user resizes.
 """
 from playwright.sync_api import sync_playwright
 import json
+import os
 
 # ---------- launch ----------
 _pw = sync_playwright().start()
-_browser = _pw.chromium.launch(headless=False)      # visible window
+_headless_env = os.getenv("HEADLESS", "true").lower()
+_headless = _headless_env not in {"0", "false", "no"}
+_browser = _pw.chromium.launch(headless=_headless)
 # viewport=None disables fixed size and lets content follow window resize
 _context = _browser.new_context(viewport=None)
 _page = _context.new_page()
