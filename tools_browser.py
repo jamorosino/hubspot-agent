@@ -1,9 +1,5 @@
 
-"""
-Playwright helpers + JSON schemas that allow the OpenAI agent to drive a
-*single*, visible Chromium tab.  Viewport adapts to the window size so the
-content rescales when the user resizes.
-"""
+"""Playwright helpers + JSON schemas that allow the OpenAI agent to drive a *single*, visible Chromium tab. Viewport adapts to the window size so the content rescales when the user resizes."""
 from playwright.sync_api import sync_playwright
 import json
 
