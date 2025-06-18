@@ -1,6 +1,6 @@
 import os, time, json, dotenv
 from openai import OpenAI
-from tools_browser import TOOL_SCHEMAS, TOOL_MAP, browser_goto  # import helpers
+from tools_browser import TOOL_SCHEMAS, TOOL_MAP, browser_goto  # browser automation tools
 
 dotenv.load_dotenv()
 client = OpenAI()
@@ -30,7 +30,7 @@ def run():
             content=user
         )
 
-        run = client.beta.threads.runs.create(
+        run_obj = client.beta.threads.runs.create(
             thread_id=thread.id,
             assistant_id=assistant.id
         )
@@ -39,7 +39,7 @@ def run():
         while True:
             run_status = client.beta.threads.runs.retrieve(
                 thread_id=thread.id,
-                run_id=run.id
+                run_id=run_obj.id
             )
             if run_status.status == "requires_action":
                 outputs = []
@@ -63,9 +63,9 @@ def run():
                     except Exception as e:
                         result = f"Tool error: {e}"
                     outputs.append({"tool_call_id": tc.id, "output": result})
-                run = client.beta.threads.runs.submit_tool_outputs(
+                run_obj = client.beta.threads.runs.submit_tool_outputs(
                     thread_id=thread.id,
-                    run_id=run.id,
+                    run_id=run_obj.id,
                     tool_outputs=outputs
                 )
             elif run_status.status in {"completed", "failed", "cancelled"}:

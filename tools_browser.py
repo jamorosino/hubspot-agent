@@ -1,11 +1,3 @@
-
-"""
-Playwright helpers + JSON schemas that allow the OpenAI agent to drive a
-*single* Chromium tab. The browser is launched in headless mode by default so
-the code can run on servers without a display. Set ``HEADLESS=0`` to launch a
-visible window. Viewport adapts to the window size so the content rescales when
-the user resizes.
-"""
 from playwright.sync_api import sync_playwright
 import json
 import os
