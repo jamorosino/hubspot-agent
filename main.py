@@ -1,6 +1,6 @@
 import os, time, json, dotenv
 from openai import OpenAI
-from tools_browser import TOOL_SCHEMAS, TOOL_MAP, browser_goto  # import helpers
+from tools_browser import TOOL_SCHEMAS, TOOL_MAP, browser_goto  # browser automation tools
 
 dotenv.load_dotenv()
 client = OpenAI()
